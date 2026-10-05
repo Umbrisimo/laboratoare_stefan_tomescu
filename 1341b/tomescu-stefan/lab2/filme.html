@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Preferinte TV</title>
+<style>
+/* Exercițiul 6: Fundal specific pentru acest meniu */
+.meniu { 
+    background-color: lightgreen; 
+    padding: 10px; 
+}
+
+/* Exercițiul 4: Stilizarea tabelului cu chenare colorate și antet */
+table {
+    border-collapse: collapse; /* Lipește marginile tabelului */
+}
+table, th, td {
+    border: 2px solid magenta; /* Chenarul colorat cerut */
+}
+th, td {
+    padding: 8px; /* Spațiere interioară pentru a nu sta textul lipit */
+}
+th {
+    background-color: lightgray; /* Fundal diferit pentru antet */
+}
+</style>
+</head>
+<body>
+<div class="meniu">
+<a href="../index.html">Laboratoarele mele</a>
+<br>
+<a href="index.html">Acasa</a>
+<br>
+<a href="filme.html">Preferinte TV</a>
+<br>
+<a href="muzici.html">Preferinte muzicale</a>
+<br>
+<hr>
+</div>
+<div>
+<h1>Filme si seriale</h1>
+
+<!-- Exercițiul 4: Tabelul cu celule unite -->
+<table>
+    <tr>
+        <th></th> <!-- Celula din colț care rămâne goală -->
+        <th>Post TV</th>
+        <th>Emisiune</th>
+    </tr>
+    <tr>
+        <td rowspan="3"><strong>Preferate</strong></td> <!-- Celulă întinsă pe 3 rânduri -->
+        <td>Discovery Channel</td>
+        <td>Cum se fabrica</td>
+    </tr>
+    <tr>
+        <td>AXN</td>
+        <td>Survivor</td>
+    </tr>
+    <tr>
+        <td>Prima Tv</td>
+        <td>Cronica Carcotasilor</td>
+    </tr>
+</table>
+
+</div>
+</body>
+</html>

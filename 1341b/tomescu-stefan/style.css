@@ -1,0 +1,29 @@
+.lista-butoane {
+            list-style-type: none; /* elimină bulinele */
+            padding: 0;
+            display: flex; /* afișează elementele pe orizontală (unul lângă altul) */
+            gap: 15px; /* adaugă spațiu între butoane */
+        }
+
+        /* Formatarea linkurilor ca butoane */
+        .lista-butoane li a {
+            text-decoration: none; /* text nesubliniat */
+            color: white; /* text alb */
+            padding: 12px 20px; /* spațiu în interiorul butonului */
+            border-radius: 8px; /* colțuri rotunjite */
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            display: block;
+            text-align: center;
+        }
+
+        /* Adăugăm un mic efect la trecerea mouse-ului (opțional, dar arată bine) */
+        .lista-butoane li a:hover {
+            opacity: 0.8;
+        }
+
+        /* Culori diferite la alegere pentru fiecare buton */
+        .l1 a{ background-color: #607D8B; } /* Gri-Albastru */
+        .l2 a{ background-color: #F44336; }    /* Roșu */
+        .l3 a{ background-color: #4CAF50; }   /* Verde */
+        .l4 a{ background-color: #FFC107; }   /* Galben */

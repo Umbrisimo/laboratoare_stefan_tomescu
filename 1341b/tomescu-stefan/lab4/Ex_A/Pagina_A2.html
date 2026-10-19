@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CSS_A2</title>
+<style>
+    h1.center {
+        background-color: #00cc66;
+        color: rgb(255, 47, 0);
+    }
+    .center {
+        font-variant: small-caps;
+        color: blue;
+    }
+    p {
+        color: blue;
+        background-color: #cccc00;
+    }
+    body {
+        background-color: #ffffcc;
+    }
+    .center, p {
+        text-align: center;
+        color: red;
+    }
+</style>
+</head>
+<body>
+
+<h1 class="center">Heading rosu centrat</h1>
+<p>Paragraf rosu centrat<br>
+Duis elementum semper neque, sed posuere quam posuere vel. Morbi auctor tellus lectus, et ultrices leo rutrum sed. In sollicitudin aliquet posuere. Duis vel egestas nisl, et rhoncus orci. Quisque nisl ex, vestibulum quis lacus a, pretium pellentesque ligula. Curabitur odio ligula, semper at magna eget, mattis lobortis ligula. Nam quis viverra mi, et rutrum odio. Cras egestas elementum ex id malesuada. Sed ornare scelerisque libero in hendrerit. Cras eu diam id nibh molestie vehicula efficitur ac velit. Nulla pellentesque suscipit vehicula. Donec vitae auctor nulla, in auctor enim. Fusce eu pretium felis. Nam commodo lacus ligula, et luctus ex bibendum eu.
+</p> 
+<a href="Pagina_A1.html">Pagina 1</a>
+
+<!-- 
+Explicatie Exercitiul 2 (diferente initiale intre A1 si A2):
+- In A1, titlul era albastru pe fundal verde deoarece regula .center { color: blue; } era scrisa dupa .center, p { color: red; }, iar fundalul venea din regula h1 { background-color: #00cc66; } (inexistenta in A2). Regula h1 { color: orange; } din A1 nu avea efect deoarece selectorul de clasa (.center) are specificitate mai mare decat selectorul de tag (h1).
+- In A2 (inainte de bonus), titlul era rosu fara fundal propriu deoarece .center, p { color: red; } era scrisa dupa .center { color: blue; }.
+- Paragraful arata identic in ambele pagini (rosu, centrat, pe fundal galben-verzui #cccc00) deoarece .center, p { text-align: center; color: red; } este plasata dupa p { color: blue; } in ambele fisiere.
+
+Explicatie Exercitiu Bonus:
+- O simpla regula h1 { background-color: #00cc66; color: orange; } scrisa la inceputul blocului <style> nu ar fi fost suficienta pentru culoarea textului, deoarece selectorul de tag (h1) are o specificitate mai mica decat selectorul de clasa (.center) folosit ulterior in .center { color: blue; } si .center, p { color: red; }.
+- Folosind selectorul compus h1.center (tag + clasa), obtinem o specificitate mai mare decat o clasa simpla (.center), astfel incat textul ramane portocaliu chiar daca regula este scrisa prima in <style>.
+-->
+</body>
+</html>

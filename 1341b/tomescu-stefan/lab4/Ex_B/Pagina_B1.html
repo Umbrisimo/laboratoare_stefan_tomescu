@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CSS_B1</title>
+<style>
+    body {
+        background-color: #ffffcc;
+    }
+    .center {
+        text-align: center;
+        color: white;
+    }
+    h1 {
+        background-color:blue;
+        color: orange;
+    }
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    .centre, .centre td {
+        border: 5px solid blue;
+        padding: 15px;
+    }
+    #s1 {
+        background-color: blue;
+    }
+    #s2 {
+        background-color: yellow;
+    }
+    div {
+        color: blue;
+    }
+</style>
+</head>
+<body>
+
+<h1 class="center">Tabele formatate</h1>
+<div id="s1">
+<table style="width:100%" class="center">
+  <tr>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Age</th>
+  </tr>
+  <tr>
+    <td>Jill</td>
+    <td>Smith</td>
+    <td>50</td>
+  </tr>
+  <tr>
+    <td>Eve</td>
+    <td>Jackson</td>
+    <td>94</td>
+  </tr>
+</table>
+<br>
+</div> 
+<div id="s2" style="width:50%">
+<br>
+<table style="width:100%" class="centre">
+  <tr>
+    <th class="centre">Firstname</th>
+    <th class="centre">Lastname</th>
+    <th class="centre">Age</th>
+  </tr>
+  <tr>
+    <td class="centre">Jill</td>
+    <td>Smith</td>
+    <td>50</td>
+  </tr>
+  <tr>
+    <td class="centre">Eve</td>
+    <td>Jackson</td>
+    <td>94</td>
+  </tr>
+</table>
+</div> 
+
+<!-- 
+Explicatii Exercitiul 3:
+1. De ce cele doua tabele au fundaluri diferite desi niciunul nu are background-color:
+Proprietatea background-color nu se mosteneste, insa elementele fara un fundal propriu (precum table, tr, td) sunt implicit transparente. Astfel, prin primul tabel se vedea fundalul verde (#00cc66) al elementului parinte <div id="s1">, iar prin al doilea tabel se vede fundalul galben (yellow) al parintelui <div id="s2">.
+
+2. De ce celulele celui de-al doilea tabel aratau diferit intre ele:
+Proprietatile border si padding nu se mostenesc de la <table> la celule (<th>, <td>). In codul initial, doar tabelul, celulele <th> si primele celule <td> de pe fiecare rand ("Jill" si "Eve") aveau atributul class="centre" (care aplica border: 5px solid blue; si padding: 15px;). Restul celulelor ("Smith", "50", "Jackson", "94") nu aveau clasa "centre", deci ramaneau doar cu regula generala de tag td { border: 1px solid black; } si fara padding. Adaugand selectorul .centre td (sau punand class="centre" pe toate celulele), aspectul lor devine uniform.
+-->
+</body>
+</html>

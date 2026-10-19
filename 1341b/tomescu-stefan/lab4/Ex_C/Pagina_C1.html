@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CSS_C1</title>
+<style>
+    #hd {
+        font-variant: small-caps;
+        color: magenta;
+    }
+    h1, caption {
+        color: blue;
+        background-color: #cccc00;
+    }
+    body {
+        background-color: #ffffcc;
+    }
+    .center, p {
+        text-align: center;
+        color: red;
+    }
+
+    /* Stilizare tabel (Exercitiile 4 si 6) */
+    table, th, td {
+        border: 2px solid green;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 12px;
+    }
+    caption {
+        background-color: orange;
+        color: white;
+        font-size: 1.5em;
+        font-weight: bold;
+        padding: 8px;
+    }
+    th {
+        background-color: magenta;
+    }
+    td {
+        background-color: orange;
+    }
+    td[rowspan] {
+        background-color: magenta;
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+
+<h1 id="hd">Tabel special</h1>
+<p>Un tabel cu "celule lipite"</p> 
+
+<table style="width:100%">
+<caption>Echipe si hobby-uri</caption>
+  <tr>
+    <th>Echipa</th>
+    <th>Nume</th>
+    <th colspan="2">Pasiuni</th>
+  </tr>
+  <tr>
+    <td rowspan="3">Munte</td>
+    <td>Popescu</td>
+    <td>calatorii</td>
+    <td>filatelie</td>
+  </tr>
+  <tr>
+    <td>Ionescu</td>
+    <td>planorism</td>
+    <td>sah</td>
+  </tr>
+  <tr>
+    <td>Vasilescu</td>
+    <td>alpinism</td>
+    <td>fotografie</td>
+  </tr>
+  <tr>
+    <td rowspan="4">Mare</td>
+    <td>Georgescu</td>
+    <td>plaja</td>
+    <td>dans</td>
+  </tr>
+  <tr>
+    <td>Gigescu</td>
+    <td>surf</td>
+    <td>samba</td>
+  </tr>
+  <tr>
+    <td>Mintescu</td>
+    <td>politica</td>
+    <td>delicateturi</td>
+  </tr>
+  <tr>
+    <td>Dumitrescu</td>
+    <td>inot</td>
+    <td>scufundari</td>
+  </tr>
+</table>
+
+<!-- 
+Explicatii Exercitiile 4, 5 si 6:
+- Ex. 4: Pentru lizibilitate s-au adaugat chenare pe table, th, td, proprietatea border-collapse: collapse (pentru contopirea chenarelor vecine intr-o singura linie) si padding pe th, td.
+- Ex. 5: S-a adaugat cate un rand (<tr>) cu un membru nou si doua pasiuni in fiecare echipa (Vasilescu la Munte, Dumitrescu la Mare) si s-a marit valoarea atributului rowspan de la 2 la 3 pentru "Munte", respectiv de la 3 la 4 pentru "Mare".
+- Ex. 6: S-au formatat caption-ul (text alb, marit, pe fond orange), antetul th (fond magenta), celulele td (fond orange) si celulele cu numele echipelor selectate prin td[rowspan] (fond magenta, text ingrosat si centrat).
+-->
+</body>
+</html>

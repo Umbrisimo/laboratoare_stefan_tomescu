@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercițiul 6 - Bec cu contor</title>
+    <script>
+        var contor = 0;
+
+        function comutaBec() {
+            var bec = document.getElementById("bec");
+            var paragrafContor = document.getElementById("afisajContor");
+
+            console.log(bec.src);
+
+            if (bec.src.match("Bec%20stins.gif") || bec.src.match("stins")) {
+                bec.src = "Bec aprins.gif";
+                contor = contor + 1;
+                paragrafContor.innerHTML = "Becul a fost aprins de " + contor + " ori.";
+            } else {
+                bec.src = "Bec stins.gif";
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Bec cu contor de aprinderi</h1>
+
+    <p>
+        <img id="bec" src="Bec stins.gif" width="100" height="180" onclick="comutaBec()">
+    </p>
+
+    <p id="afisajContor">Becul a fost aprins de 0 ori.</p>
+
+</body>
+</html>

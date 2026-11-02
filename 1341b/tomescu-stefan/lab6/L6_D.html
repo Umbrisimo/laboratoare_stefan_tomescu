@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercițiu Bonus - Galerie Foto</title>
+</head>
+<body>
+    <h3>Galerie Foto</h3>
+    
+    <img id="poza" src="Img/pisici.jpg" alt="Galerie" width="320" height="240">
+    <p id="contor">Imaginea 1 din 4</p>
+    
+    <button id="btnInapoi">Înapoi</button>
+    <button id="btnInainte">Înainte</button>
+
+    <script>
+        var imagini = ["Img/pisici.jpg", "Img/munti.jpg", "Img/caini.jpg", "Img/mare.jpg"];
+        var pozitie = 0;
+
+        var imgElement = document.getElementById("poza");
+        var textContor = document.getElementById("contor");
+
+        function actualizeazaGalerie() {
+            imgElement.src = imagini[pozitie];
+            textContor.innerHTML = "Imaginea " + (pozitie + 1) + " din " + imagini.length;
+        }
+
+        document.getElementById("btnInainte").onclick = function () {
+            pozitie = (pozitie + 1) % imagini.length;
+            actualizeazaGalerie();
+        };
+
+        document.getElementById("btnInapoi").onclick = function () {
+            pozitie = (pozitie - 1 + imagini.length) % imagini.length;
+            actualizeazaGalerie();
+        };
+    </script>
+</body>
+</html>

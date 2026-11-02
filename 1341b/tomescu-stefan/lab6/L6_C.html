@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercițiul 4 - L6_C</title>
+</head>
+<body>
+    <h1 id="titlu">Titlu de câteva cuvinte pentru laborator</h1>
+
+    <p id="paragraf">
+        Prima linie de text din acest paragraf.<br>
+        A doua linie de text pentru exercițiul patru.<br>
+        A treia linie de text (fă clic pentru a schimba fundalul).
+    </p>
+
+    <script>
+        var titlu = document.getElementById("titlu");
+        var paragraf = document.getElementById("paragraf");
+
+        titlu.onclick = function () {
+            var c = prompt("Introduceți o culoare CSS pentru textul titlului (ex: red, #ff0000, blue):");
+            if (c !== null) {
+                if (c !== "" && CSS.supports("color", c)) {
+                    this.style.color = c;
+                } else {
+                    alert("Culoare incorectă: " + c);
+                }
+            }
+        };
+
+        paragraf.onclick = function () {
+            var c = prompt("Introduceți o culoare CSS pentru fundalul paragrafului (ex: yellow, #00ff00):");
+            if (c !== null) {
+                if (c !== "" && CSS.supports("color", c)) {
+                    this.style.backgroundColor = c;
+                } else {
+                    alert("Culoare incorectă: " + c);
+                }
+            }
+        };
+    </script>
+</body>
+</html>

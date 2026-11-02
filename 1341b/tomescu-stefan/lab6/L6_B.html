@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercițiul 3 - L6_B</title>
+</head>
+<body>
+    <button id="btnSchimba">Schimbă paragrafele între ele</button>
+
+    <p id="p1" style="color: darkblue; font-family: Arial, sans-serif; font-size: 18px; background-color: #e6f2ff; padding: 10px;">
+        Acesta este primul paragraf (clic aici pentru a schimba textul).
+    </p>
+
+    <p id="p2" style="color: darkred; font-family: Georgia, serif; font-size: 20px; font-style: italic; background-color: #ffe6e6; padding: 10px;">
+        Acesta este al doilea paragraf, formatat diferit (clic aici pentru a schimba textul).
+    </p>
+
+    <script>
+        var par1 = document.getElementById("p1");
+        var par2 = document.getElementById("p2");
+        var btn = document.getElementById("btnSchimba");
+
+        function schimbaText() {
+            var textNou = prompt("Introduceți noul text pentru acest paragraf:", this.innerHTML);
+            if (textNou !== null && textNou !== "") {
+                this.innerHTML = textNou;
+            }
+        }
+
+        par1.onclick = schimbaText;
+        par2.onclick = schimbaText;
+
+        btn.onclick = function () {
+            var temp = par1.innerHTML;
+            par1.innerHTML = par2.innerHTML;
+            par2.innerHTML = temp;
+        };
+    </script>
+</body>
+</html>

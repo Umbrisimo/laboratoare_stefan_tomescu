@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Tabel masini</title>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+#mesaj {
+  color: red;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+<h1>Masinile dorite</h1>
+
+<form onsubmit="return adaugaMasina()">
+  <input id="marca" placeholder="Marca" required>
+  <input id="model" placeholder="Model" required>
+  <input id="culoare" placeholder="Culoare" required>
+  <input id="anFab" type="number" placeholder="An fabricatie" required>
+  <button type="submit">Adauga masina</button>
+</form>
+
+<p id="mesaj"></p>
+
+<table id="tm">
+  <tr>
+    <th>Marca</th>
+    <th>Model</th>
+    <th>Culoare</th>
+    <th>An fabricatie</th>
+  </tr>
+</table>
+
+<script>
+// 1. Cream si afisam cele doua masini implicite din cod
+var m1 = new masina("Opel", "Zafira", "gri", 2015);
+var m2 = new masina("Seat", "Ibiza", "roz", 2018);
+
+document.getElementById("tm").innerHTML += m1.randNou(); 
+document.getElementById("tm").innerHTML += m2.randNou(); 
+
+// 2. Verificam daca la o rulare anterioara am salvat un obiect JSON sub cheia "masinaN"
+if (localStorage.masinaN) {
+  var masinaJSON = localStorage.masinaN; // Luam textul JSON din Local Storage
+  var mNoua = JSON.parse(masinaJSON);    // Transformam textul JSON inapoi intr-un obiect simplu JS
+  
+  // Afisam randul in tabel. Observatie: mNoua.randNou se scrie FARA paranteze, 
+  // deoarece acum este o proprietate ce contine direct textul "<tr>...</tr>", nu mai este functie!
+  document.getElementById("tm").innerHTML += mNoua.randNou; 
+}
+
+// 3. Functia constructor pentru crearea unui obiect "masina"
+function masina(mk, md, cl, an) {
+  this.marca = mk;
+  this.model = md;
+  this.culoare = cl;
+  this.anFab = an;
+  this.randNou = function() {
+    return "<tr><td>" + this.marca + "</td><td>" + this.model + "</td><td>" + this.culoare + "</td><td>" + this.anFab + "</td></tr>";
+  };
+}
+
+// 4. Functia de validare a datelor din formular
+function valideaza(marca, model, culoare, an) {
+  if (marca.trim() === "" || model.trim() === "" || culoare.trim() === "") {
+    return "Eroare: Marca, modelul și culoarea nu pot fi goale sau formate doar din spații!";
+  }
+  var anNum = Number(an);
+  var anCurent = new Date().getFullYear();
+  if (!Number.isInteger(anNum) || anNum < 1900 || anNum > anCurent) {
+    return "Eroare: Anul fabricației trebuie să fie un număr întreg între 1900 și " + anCurent + "!";
+  }
+  return "";
+}
+
+// 5. Functia care adauga masina si o salveaza ca text JSON
+function adaugaMasina() {
+  var marca = document.getElementById("marca").value;
+  var model = document.getElementById("model").value;
+  var culoare = document.getElementById("culoare").value;
+  var an = document.getElementById("anFab").value;
+
+  // Verificam datele
+  var eroare = valideaza(marca, model, culoare, an);
+  if (eroare !== "") {
+    document.getElementById("mesaj").innerText = eroare;
+    return false;
+  }
+
+  document.getElementById("mesaj").innerText = "";
+
+  var marcaCurata = marca.trim();
+  var modelCurat = model.trim();
+  var culoareCurata = culoare.trim();
+  var anNum = Number(an);
+
+  // Cream obiectul si adaugam randul in tabel (aici randNou() inca este functie, deci are paranteze)
+  var mNoua = new masina(marcaCurata, modelCurat, culoareCurata, anNum);
+  document.getElementById("tm").innerHTML += mNoua.randNou(); 
+
+  // TRUC IMPORTANT: JSON.stringify() nu salveaza functii! 
+  // De aceea, apelam functia mNoua.randNou() si salvam rezultatul ei (textul cu "<tr>...</tr>") 
+  // chiar in proprietatea mNoua.randNou, inlocuind functia cu textul HTML.
+  mNoua.randNou = mNoua.randNou().toString();
+  
+  // Transformam intregul obiect mNoua intr-un singur text in format JSON
+  var myJSON = JSON.stringify(mNoua);
+
+  // Salvam textul JSON in Local Storage sub o singura cheie: "masinaN"
+  localStorage.setItem("masinaN", myJSON);
+
+  return false; // Prevenim reincarcarea paginii
+}
+</script>
+
+<!-- 
+Răspunsuri Exercițiul 4:
+(a) Ce conține cheia masinaN după adăugarea unei mașini:
+Conține un text în format JSON cu toate datele mașinii adăugate: marca, model, culoare (și anFab după modificare), precum și proprietatea randNou care păstrează textul cu rândul HTML al tabelului (de ex.: '{"marca":"Dacia","model":"Logan","culoare":"alb","randNou":"<tr><td>Dacia</td><td>Logan</td><td>alb</td></tr>"}').
+
+(b) De ce linia mNoua.randNou = mNoua.randNou().toString(); înlocuiește metoda cu un text și ce s-ar întâmpla fără ea:
+JSON.stringify() omite (ignoră) funcțiile atunci când transformă un obiect în text JSON. Prin această linie, metoda randNou() este executată, iar rezultatul ei (textul HTML "<tr>...</tr>") îi ia locul, devenind o simplă proprietate de tip text. Fără această linie, randNou nu ar apărea deloc în textul JSON salvat, iar la reîncărcarea paginii mNoua.randNou ar fi undefined.
+
+(c) De ce la reîncărcare se scrie mNoua.randNou, fără paranteze:
+Pentru că, după ce transformăm textul JSON înapoi în obiect cu JSON.parse(), mNoua este un obiect simplu în care randNou nu mai este o funcție, ci o proprietate obișnuită care conține direct textul HTML al rândului de tabel.
+
+(d) Câte mașini adăugate apar după reîncărcare, comparativ cu L8_A:
+Tot o singură mașină adăugată (doar ultima introdusă), pe lângă cele două mașini din cod (Opel și Seat), exact ca în L8_A. Acest lucru se întâmplă deoarece fiecare mașină nouă înlocuiește valoarea cheii "masinaN" din Local Storage.
+-->
+</body>
+</html>

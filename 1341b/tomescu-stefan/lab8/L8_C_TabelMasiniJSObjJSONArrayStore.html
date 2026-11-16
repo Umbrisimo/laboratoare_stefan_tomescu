@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Tabel masini</title>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+#mesaj {
+  color: red;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+<h1>Masinile dorite</h1>
+
+<form onsubmit="return adaugaMasina()">
+  <input id="marca" placeholder="Marca" required>
+  <input id="model" placeholder="Model" required>
+  <input id="culoare" placeholder="Culoare" required>
+  <input id="anFab" type="number" placeholder="An fabricatie" required>
+  <button type="submit">Adauga masina</button>
+</form>
+
+<p id="mesaj"></p>
+
+<table id="tm">
+  <tr>
+    <th>Marca</th>
+    <th>Model</th>
+    <th>Culoare</th>
+    <th>An fabricatie</th>
+  </tr>
+</table>
+
+<script>
+// 1. Cream un tablou (lista/array) gol in care vom tine toate masinile
+const masini2Store = [];
+
+// 2. La incarcarea paginii, verificam daca avem deja o lista de masini salvata in Local Storage sub cheia "carsArray"
+if (localStorage.carsArray) {
+  let arrayJSON = localStorage.carsArray;        // Citim textul JSON din Local Storage
+  var masiniStored = JSON.parse(arrayJSON);      // Transformam textul JSON inapoi intr-un tablou (array) de obiecte
+  
+  // Parcurgem cu o bucla "for" fiecare masina din tabloul recuperat
+  for (var i = 0; i < masiniStored.length; i++) {
+    // Afisam randul fiecarei masini in tabel (randNou este proprietate text, deci fara paranteze)
+    document.getElementById("tm").innerHTML += masiniStored[i].randNou; 
+    // Adaugam masina si in tabloul nostru de lucru (masini2Store), ca sa nu o pierdem cand mai adaugam altele noi
+    masini2Store.push(masiniStored[i]);
+  }
+}
+
+// 3. Functia constructor pentru obiectul "masina"
+function masina(mk, md, cl, an) {
+  this.marca = mk;
+  this.model = md;
+  this.culoare = cl;
+  this.anFab = an;
+  this.randNou = function() {
+    return "<tr><td>" + this.marca + "</td><td>" + this.model + "</td><td>" + this.culoare + "</td><td>" + this.anFab + "</td></tr>";
+  };
+}
+
+// 4. Functia de validare a formularului
+function valideaza(marca, model, culoare, an) {
+  if (marca.trim() === "" || model.trim() === "" || culoare.trim() === "") {
+    return "Eroare: Marca, modelul și culoarea nu pot fi goale sau formate doar din spații!";
+  }
+  var anNum = Number(an);
+  var anCurent = new Date().getFullYear();
+  if (!Number.isInteger(anNum) || anNum < 1900 || anNum > anCurent) {
+    return "Eroare: Anul fabricației trebuie să fie un număr întreg între 1900 și " + anCurent + "!";
+  }
+  return "";
+}
+
+// 5. Functia apelata la adaugarea unei masini noi din formular
+function adaugaMasina() {
+  var marca = document.getElementById("marca").value;
+  var model = document.getElementById("model").value;
+  var culoare = document.getElementById("culoare").value;
+  var an = document.getElementById("anFab").value;
+
+  var eroare = valideaza(marca, model, culoare, an);
+  if (eroare !== "") {
+    document.getElementById("mesaj").innerText = eroare;
+    return false;
+  }
+
+  document.getElementById("mesaj").innerText = "";
+
+  var marcaCurata = marca.trim();
+  var modelCurat = model.trim();
+  var culoareCurata = culoare.trim();
+  var anNum = Number(an);
+
+  // Cream obiectul masinii noi si il afisam pe loc in tabel
+  var mNoua = new masina(marcaCurata, modelCurat, culoareCurata, anNum);
+  document.getElementById("tm").innerHTML += mNoua.randNou(); 
+
+  // Inlocuim metoda randNou cu textul HTML returnat de ea, pentru a nu se pierde la JSON.stringify
+  mNoua.randNou = mNoua.randNou().toString();
+  
+  // Adaugam noua masina la finalul tabloului masini2Store cu .push()
+  masini2Store.push(mNoua);
+  
+  // Transformam intregul tablou cu toate masinile in text JSON si il salvam in Local Storage sub cheia "carsArray"
+  var myJSON = JSON.stringify(masini2Store);
+  localStorage.setItem("carsArray", myJSON);
+
+  return false; // Nu reincarcam pagina
+}
+</script>
+
+<!-- 
+Răspuns Exercițiul 6:
+Ce aduce nou L8_C față de L8_B:
+1. Tabloul masini2Store: În loc să lucreze cu un singur obiect, codul folosește un tablou (masini2Store) în care se păstrează toate mașinile (atât cele citite din Local Storage la deschiderea paginii, cât și cele adăugate ulterior prin formular cu metoda masini2Store.push(mNoua)).
+2. Cheia carsArray: În Local Storage nu se mai salvează un singur obiect, ci întregul tablou de mașini transformat în text JSON (cu JSON.stringify(masini2Store)), sub cheia "carsArray". Astfel, când adăugăm o mașină nouă, cele vechi nu se mai șterg.
+3. Bucla for de la încărcare: La încărcarea paginii, textul JSON din localStorage.carsArray este transformat înapoi într-un tablou de obiecte (masiniStored) cu JSON.parse(). Bucla for trece prin fiecare mașină din acest tablou, îi afișează rândul în tabel (masiniStored[i].randNou) și o copiază în tabloul masini2Store, păstrând astfel toate mașinile în ordinea adăugării.
+-->
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Tabel masini</title>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+/* Stil pentru ca mesajele de eroare sa apara cu rosu */
+#mesaj {
+  color: red;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+<h1>Masinile dorite</h1>
+
+<!-- Formularul pentru introducerea datelor. 
+     onsubmit="return adaugaMasina()" apeleaza functia cand apasam pe buton. 
+     Atributul "required" nu lasa utilizatorul sa trimita campuri complet goale. -->
+<form onsubmit="return adaugaMasina()">
+  <input id="marca" placeholder="Marca" required>
+  <input id="model" placeholder="Model" required>
+  <input id="culoare" placeholder="Culoare" required>
+  <input id="anFab" type="number" placeholder="An fabricatie" required>
+  <button type="submit">Adauga masina</button>
+</form>
+
+<!-- Paragraful unde vom afisa erorile de validare -->
+<p id="mesaj"></p>
+
+<!-- Tabelul in care se vor adauga masinile -->
+<table id="tm">
+  <tr>
+    <th>Marca</th>
+    <th>Model</th>
+    <th>Culoare</th>
+    <th>An fabricatie</th>
+  </tr>
+</table>
+
+<script>
+// 1. Cream doua obiecte de tip "masina" direct din cod, folosind cuvantul cheie "new"
+var m1 = new masina("Opel", "Zafira", "gri", 2015);
+var m2 = new masina("Seat", "Ibiza", "roz", 2018);
+
+// 2. Adaugam in tabel randurile HTML generate de metoda randNou() a celor doua masini
+document.getElementById("tm").innerHTML += m1.randNou(); 
+document.getElementById("tm").innerHTML += m2.randNou(); 
+
+// 3. Verificam daca in Local Storage exista deja salvata o marca (adica s-a adaugat o masina anterior)
+if (localStorage.marca) {
+  // Citim datele salvate pe chei separate si cream obiectul masinii
+  var mNoua = new masina(
+    localStorage.marca, 
+    localStorage.model, 
+    localStorage.culoare, 
+    localStorage.anFab
+  );
+  // Afisam in tabel masina recuperata din Local Storage
+  document.getElementById("tm").innerHTML += mNoua.randNou();
+}
+
+// 4. Functia constructor care descrie cum arata un obiect de tip "masina"
+function masina(mk, md, cl, an) {
+  this.marca = mk;    // proprietatea pentru marca ("this" reprezinta obiectul care tocmai se creeaza)
+  this.model = md;    // proprietatea pentru model
+  this.culoare = cl;  // proprietatea pentru culoare
+  this.anFab = an;    // proprietatea pentru anul de fabricatie
+  
+  // Metoda obiectului: construieste si returneaza un rand de tabel HTML (<tr>...</tr>) cu datele masinii
+  this.randNou = function() {
+    return "<tr><td>" + this.marca + "</td><td>" + this.model + "</td><td>" + this.culoare + "</td><td>" + this.anFab + "</td></tr>";
+  };
+}
+
+// 5. Functia care verifica daca datele introduse in formular sunt corecte (Ex. 3)
+function valideaza(marca, model, culoare, an) {
+  // .trim() elimina spatiile de la inceput si de la sfarsit. 
+  // Daca utilizatorul a scris doar spatii, .trim() transforma textul in "" (sir gol).
+  if (marca.trim() === "" || model.trim() === "" || culoare.trim() === "") {
+    return "Eroare: Marca, modelul și culoarea nu pot fi goale sau formate doar din spații!";
+  }
+  
+  var anNum = Number(an); // Transformam textul din campul anului in numar
+  var anCurent = new Date().getFullYear(); // Luam anul curent din sistem (ex. 2026)
+  
+  // Verificam daca anul NU este numar intreg sau daca este in afara intervalului [1900, anCurent]
+  if (!Number.isInteger(anNum) || anNum < 1900 || anNum > anCurent) {
+    return "Eroare: Anul fabricației trebuie să fie un număr întreg între 1900 și " + anCurent + "!";
+  }
+  
+  // Daca toate verificarile au trecut cu bine, returnam un text gol (nu exista erori)
+  return "";
+}
+
+// 6. Functia apelata la trimiterea formularului (cand apasam pe "Adauga masina")
+function adaugaMasina() {
+  // Luam valorile scrise de utilizator in casutele din formular
+  var marca = document.getElementById("marca").value;
+  var model = document.getElementById("model").value;
+  var culoare = document.getElementById("culoare").value;
+  var an = document.getElementById("anFab").value;
+
+  // Apelam functia de validare
+  var eroare = valideaza(marca, model, culoare, an);
+  
+  // Daca functia ne-a intors un mesaj de eroare (textul nu este gol)
+  if (eroare !== "") {
+    document.getElementById("mesaj").innerText = eroare; // Afisam eroarea in paragraful <p id="mesaj">
+    return false; // Oprim functia si prevenim reincarcarea paginii (nu salvam masina)
+  }
+
+  // Daca datele sunt corecte, stergem eventualul mesaj de eroare afisat anterior
+  document.getElementById("mesaj").innerText = "";
+
+  // Curatam textele de spatii inutile inainte de a le folosi
+  var marcaCurata = marca.trim();
+  var modelCurat = model.trim();
+  var culoareCurata = culoare.trim();
+  var anNum = Number(an);
+
+  // Cream obiectul pentru noua masina si o adaugam in tabel
+  var mNoua = new masina(marcaCurata, modelCurat, culoareCurata, anNum);
+  document.getElementById("tm").innerHTML += mNoua.randNou(); 
+
+  // Salvam fiecare proprietate separat in Local Storage
+  localStorage.setItem("marca", marcaCurata);
+  localStorage.setItem("model", modelCurat);
+  localStorage.setItem("culoare", culoareCurata);
+  localStorage.setItem("anFab", anNum);
+
+  // Returnam false pentru ca formularul sa NU reincarce pagina la trimitere
+  return false;
+}
+</script>
+</body>
+</html>
